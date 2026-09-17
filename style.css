@@ -258,12 +258,20 @@ button.ghost{
 button:active{transform:translateY(1px);}
 
 .output{
-  margin-top:6px;
+  margin-top:14px;
   min-height:1.4em;
   font-size:1.05rem;
   letter-spacing:.04em;
   color:var(--accent);
   word-break:break-word;
+  border:2px solid var(--accent);
+  border-radius:8px;
+  padding:12px 14px;
+  background:#fffdf8;
+}
+
+.output:empty{
+  display:none;
 }
 
 .note{
@@ -283,6 +291,16 @@ footer.pagefoot{
   flex-wrap:wrap;
   gap:8px;
 }
+
+.ghostlink{
+  color:inherit;
+  text-decoration:none;
+  opacity:.18;
+  padding:0 4px;
+}
+
+.ghostlink:hover,
+.ghostlink:focus{opacity:.6;}
 
 .undefeated{
   font-family:'Kalam',cursive;
