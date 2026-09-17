@@ -12,7 +12,7 @@ const KL3_REVERSE = Object.fromEntries(
 
 function kl3Encode(text){
   return text
-    .split(" ")
+    .split(/\s+/)
     .map(word =>
       word
         .split("")
@@ -24,28 +24,28 @@ function kl3Encode(text){
           }
           return ch;
         })
-        .join(" ")
+        .join("")
     )
-    .join("   ");
+    .join(" ");
 }
 
 function kl3Decode(text){
   return text
-    .split(/\s{2,}|\n/)
-    .map(chunk =>
-      chunk
-        .trim()
-        .split(/\s+/)
-        .map(tok => {
-          if(!tok) return "";
-          const upper = tok.toUpperCase();
-          if (KL3_REVERSE[upper]) {
-            const letter = KL3_REVERSE[upper];
-            return tok === upper ? letter : letter.toLowerCase();
-          }
-          return tok;
-        })
-        .join("")
-    )
+    .split(/\s+/)
+    .map(word => {
+      if(!word) return "";
+      let out = "";
+      for (let i = 0; i < word.length; i += 3){
+        const tok = word.slice(i, i + 3);
+        const upper = tok.toUpperCase();
+        if (tok.length === 3 && KL3_REVERSE[upper]) {
+          const letter = KL3_REVERSE[upper];
+          out += tok === upper ? letter : letter.toLowerCase();
+        } else {
+          out += tok;
+        }
+      }
+      return out;
+    })
     .join(" ");
 }
