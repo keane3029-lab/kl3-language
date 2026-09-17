@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cipher table — KL3</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <a class="wordmark" href="index.html">KL<span>3</span></a>
+    <nav class="tabs">
+      <a href="index.html">Home</a>
+      <a href="translate.html">Translate</a>
+      <a href="cipher.html" aria-current="page">Cipher table</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <span class="tag">A–Z reference</span>
+    <h1>The full KL3 table</h1>
+    <p class="lede">Every letter maps to a fixed 3-letter code. Unlike KL2, the codes don't follow the
+    letter's own position in the alphabet — study them directly, there's no shortcut rule to derive them from.</p>
+
+    <div class="grid" id="cipherGrid"></div>
+
+    <p class="note">Straight from the notebook, dated 9/17/26. Copied out exactly as written.</p>
+  </main>
+
+  <footer class="pagefoot">
+    <span>KL3 — Keane Language, third generation</span>
+    <span>part of the KL project — KL · KL2 · KL3 · KL4 (in progress)</span>
+  </footer>
+</div>
+
+<script src="script.js"></script>
+<script>
+  const grid = document.getElementById('cipherGrid');
+  Object.entries(KL3).forEach(([letter, code]) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.innerHTML = `<span class="letter">${letter}</span><span class="code">${code}</span>`;
+    grid.appendChild(cell);
+  });
+</script>
+</body>
+</html>

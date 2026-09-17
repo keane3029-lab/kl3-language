@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Translate — KL3</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <a class="wordmark" href="index.html">KL<span>3</span></a>
+    <nav class="tabs">
+      <a href="index.html">Home</a>
+      <a href="translate.html" aria-current="page">Translate</a>
+      <a href="cipher.html">Cipher table</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
+
+  <main>
+    <span class="tag">Live encode / decode</span>
+    <h1>Translate to and from KL3</h1>
+    <p class="lede">Type plain text to see it in KL3, or paste KL3 to decode it back. Each letter becomes
+    a 3-letter code, separated by spaces; words are separated by extra space.</p>
+
+    <h2>Plain text → KL3</h2>
+    <div class="field">
+      <label for="plainIn">Plain text</label>
+      <textarea id="plainIn" rows="3" placeholder="type something...">keane language</textarea>
+    </div>
+    <div class="btnrow">
+      <button id="encodeBtn">Encode</button>
+      <button class="ghost" id="clearEncode">Clear</button>
+    </div>
+    <div class="output" id="encodeOut" aria-live="polite"></div>
+
+    <h2>KL3 → plain text</h2>
+    <div class="field">
+      <label for="klIn">KL3 text</label>
+      <textarea id="klIn" rows="3" placeholder="paste kl3 codes, separated by spaces..."></textarea>
+    </div>
+    <div class="btnrow">
+      <button id="decodeBtn">Decode</button>
+      <button class="ghost" id="clearDecode">Clear</button>
+    </div>
+    <div class="output" id="decodeOut" aria-live="polite"></div>
+
+    <p class="note">This runs entirely in your browser off the table on the <a href="cipher.html">cipher
+    page</a> — nothing gets sent anywhere.</p>
+  </main>
+
+  <footer class="pagefoot">
+    <span>KL3 — Keane Language, third generation</span>
+    <span>part of the KL project — KL · KL2 · KL3 · KL4 (in progress)</span>
+  </footer>
+</div>
+
+<script src="script.js"></script>
+<script>
+  const plainIn = document.getElementById('plainIn');
+  const encodeOut = document.getElementById('encodeOut');
+  const klIn = document.getElementById('klIn');
+  const decodeOut = document.getElementById('decodeOut');
+
+  function runEncode(){
+    encodeOut.textContent = plainIn.value.trim() ? kl3Encode(plainIn.value) : "";
+  }
+  function runDecode(){
+    decodeOut.textContent = klIn.value.trim() ? kl3Decode(klIn.value) : "";
+  }
+
+  document.getElementById('encodeBtn').addEventListener('click', runEncode);
+  document.getElementById('decodeBtn').addEventListener('click', runDecode);
+  document.getElementById('clearEncode').addEventListener('click', () => {
+    plainIn.value=""; encodeOut.textContent="";
+  });
+  document.getElementById('clearDecode').addEventListener('click', () => {
+    klIn.value=""; decodeOut.textContent="";
+  });
+
+  runEncode();
+</script>
+</body>
+</html>
