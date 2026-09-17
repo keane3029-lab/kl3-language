@@ -4,7 +4,313 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Translate — KL3</title>
-<link rel="stylesheet" href="style.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --paper:#f6f1e4;
+  --paper-edge:#eee6d2;
+  --ink:#22190f;
+  --ink-soft:#4a4238;
+  --pencil:#9c9488;
+  --rule-blue:#7f93bd;
+  --rule-red:#c1543f;
+  --accent:#a53324;
+  --accent-soft:#e9d9c8;
+}
+
+*{box-sizing:border-box;}
+
+html,body{
+  margin:0;
+  padding:0;
+  background:#3a352c;
+  color:var(--ink);
+  font-family:'IBM Plex Mono',monospace;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  padding:32px 16px 64px;
+}
+
+.page{
+  width:100%;
+  max-width:840px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 37px,
+      var(--rule-blue) 38px,
+      transparent 39px
+    ),
+    var(--paper);
+  position:relative;
+  padding:40px 36px 60px 72px;
+  border-radius:2px;
+  box-shadow:0 30px 60px rgba(0,0,0,.45), 0 2px 0 rgba(0,0,0,.1);
+}
+
+.page::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:52px;
+  width:2px;
+  height:100%;
+  background:var(--rule-red);
+  opacity:.55;
+}
+
+header.top{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px 24px;
+  border-bottom:2px dashed var(--rule-red);
+  padding-bottom:14px;
+  margin-bottom:28px;
+}
+
+.wordmark{
+  font-family:'Kalam',cursive;
+  font-weight:700;
+  font-size:2.1rem;
+  color:var(--ink);
+  text-decoration:none;
+  line-height:1;
+}
+
+.wordmark span{color:var(--accent);}
+
+nav.tabs{
+  display:flex;
+  gap:18px;
+  font-size:.85rem;
+  letter-spacing:.02em;
+}
+
+nav.tabs a{
+  color:var(--ink-soft);
+  text-decoration:none;
+  padding-bottom:3px;
+  border-bottom:2px solid transparent;
+}
+
+nav.tabs a:hover,
+nav.tabs a[aria-current="page"]{
+  color:var(--accent);
+  border-bottom-color:var(--accent);
+}
+
+h1,h2,h3{
+  font-family:'Kalam',cursive;
+  font-weight:700;
+  margin:0 0 .4em;
+  line-height:1.15;
+}
+
+h1{font-size:2.6rem;}
+h2{font-size:1.7rem;margin-top:1.6em;}
+h3{font-size:1.15rem;color:var(--ink-soft);}
+
+p{
+  line-height:1.65;
+  color:var(--ink-soft);
+  max-width:60ch;
+}
+
+.lede{
+  font-size:1.05rem;
+  color:var(--ink);
+}
+
+.tag{
+  display:inline-block;
+  font-size:.72rem;
+  color:var(--accent);
+  border:1px solid var(--accent);
+  border-radius:3px;
+  padding:2px 8px;
+  margin-bottom:14px;
+  background:var(--accent-soft);
+}
+
+.scorecard{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin:28px 0;
+  padding:18px 20px;
+  border:2px solid var(--ink);
+  border-radius:6px;
+  background:rgba(255,255,255,.35);
+  width:fit-content;
+}
+
+.scorecard .circle{
+  width:64px;
+  height:64px;
+  border-radius:50%;
+  border:2px solid var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Kalam',cursive;
+  font-size:1.15rem;
+  color:var(--accent);
+  flex-shrink:0;
+}
+
+.scorecard .label{
+  font-family:'Kalam',cursive;
+  font-size:1.05rem;
+  color:var(--ink-soft);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+  gap:10px 14px;
+  margin:20px 0 8px;
+}
+
+.cell{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  padding:8px 10px;
+  border-bottom:1px dashed var(--rule-blue);
+}
+
+.cell .letter{
+  font-family:'Kalam',cursive;
+  font-size:1.3rem;
+  color:var(--ink);
+  width:1.2ch;
+}
+
+.cell .code{
+  font-size:.95rem;
+  letter-spacing:.06em;
+  color:var(--accent);
+  font-weight:600;
+}
+
+textarea, input[type=text]{
+  width:100%;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:1rem;
+  padding:14px 16px;
+  border:2px solid var(--ink);
+  border-radius:6px;
+  background:#fffdf8;
+  color:var(--ink);
+  resize:vertical;
+}
+
+textarea:focus, input[type=text]:focus{
+  outline:3px solid var(--rule-blue);
+  outline-offset:1px;
+}
+
+.field{margin:18px 0;}
+
+.field label{
+  display:block;
+  font-family:'Kalam',cursive;
+  font-size:1.05rem;
+  margin-bottom:6px;
+  color:var(--ink);
+}
+
+.btnrow{
+  display:flex;
+  gap:12px;
+  margin:16px 0 4px;
+  flex-wrap:wrap;
+}
+
+button{
+  font-family:'Kalam',cursive;
+  font-size:1.05rem;
+  padding:9px 20px;
+  border-radius:6px;
+  border:2px solid var(--ink);
+  background:var(--ink);
+  color:var(--paper);
+  cursor:pointer;
+}
+
+button.ghost{
+  background:transparent;
+  color:var(--ink);
+}
+
+button:active{transform:translateY(1px);}
+
+.output{
+  margin-top:6px;
+  min-height:1.4em;
+  font-size:1.05rem;
+  letter-spacing:.04em;
+  color:var(--accent);
+  word-break:break-word;
+}
+
+.note{
+  font-size:.85rem;
+  color:var(--pencil);
+  margin-top:24px;
+}
+
+footer.pagefoot{
+  margin-top:48px;
+  padding-top:14px;
+  border-top:2px dashed var(--rule-red);
+  font-size:.8rem;
+  color:var(--pencil);
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.undefeated{
+  font-family:'Kalam',cursive;
+  color:var(--accent);
+}
+
+ul.speakers{
+  list-style:none;
+  padding:0;
+  margin:14px 0;
+}
+
+ul.speakers li{
+  padding:8px 0;
+  border-bottom:1px dashed var(--rule-blue);
+  color:var(--ink-soft);
+}
+
+ul.speakers li b{color:var(--ink);}
+
+@media (max-width:560px){
+  .page{padding:28px 18px 48px 46px;}
+  .page::before{left:30px;}
+  h1{font-size:2.1rem;}
+  nav.tabs{gap:12px;font-size:.78rem;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  * {animation:none !important; transition:none !important;}
+}
+
+</style>
 </head>
 <body>
 <div class="page">
@@ -22,7 +328,7 @@
     <span class="tag">Live encode / decode</span>
     <h1>Translate to and from KL3</h1>
     <p class="lede">Type plain text to see it in KL3, or paste KL3 to decode it back. Each letter becomes
-    a 3-letter code, separated by spaces; words are separated by extra space.</p>
+    a 3-letter code, and the codes for one word run together with no space — only word breaks get a space.</p>
 
     <h2>Plain text → KL3</h2>
     <div class="field">
@@ -38,7 +344,7 @@
     <h2>KL3 → plain text</h2>
     <div class="field">
       <label for="klIn">KL3 text</label>
-      <textarea id="klIn" rows="3" placeholder="paste kl3 codes, separated by spaces..."></textarea>
+      <textarea id="klIn" rows="3" placeholder="paste kl3 words — letters run together, spaces between words..."></textarea>
     </div>
     <div class="btnrow">
       <button id="decodeBtn">Decode</button>
@@ -56,7 +362,60 @@
   </footer>
 </div>
 
-<script src="script.js"></script>
+<script>
+// KL3 cipher table — non-sequential letter shift, canon per Keane's notebook
+const KL3 = {
+  A:"BAC", B:"DBC", C:"CED", D:"DFE", E:"FGE", F:"GFH", G:"HIG",
+  H:"SHI", I:"JRI", J:"NJK", K:"NKM", L:"BLC", M:"OMP", N:"MNO",
+  O:"PQO", P:"RQR", Q:"RQS", R:"TSR", S:"TSU", T:"UVT", U:"WVU",
+  V:"WXV", W:"WYX", X:"YXZ", Y:"YZY", Z:"ZZZ"
+};
+
+const KL3_REVERSE = Object.fromEntries(
+  Object.entries(KL3).map(([letter, code]) => [code, letter])
+);
+
+function kl3Encode(text){
+  return text
+    .split(/\s+/)
+    .map(word =>
+      word
+        .split("")
+        .map(ch => {
+          const upper = ch.toUpperCase();
+          if (KL3[upper]) {
+            const code = KL3[upper];
+            return ch === upper ? code : code.toLowerCase();
+          }
+          return ch;
+        })
+        .join("")
+    )
+    .join(" ");
+}
+
+function kl3Decode(text){
+  return text
+    .split(/\s+/)
+    .map(word => {
+      if(!word) return "";
+      let out = "";
+      for (let i = 0; i < word.length; i += 3){
+        const tok = word.slice(i, i + 3);
+        const upper = tok.toUpperCase();
+        if (tok.length === 3 && KL3_REVERSE[upper]) {
+          const letter = KL3_REVERSE[upper];
+          out += tok === upper ? letter : letter.toLowerCase();
+        } else {
+          out += tok;
+        }
+      }
+      return out;
+    })
+    .join(" ");
+}
+
+</script>
 <script>
   const plainIn = document.getElementById('plainIn');
   const encodeOut = document.getElementById('encodeOut');
